@@ -26,3 +26,4 @@ node_modules
 
 # Credentials in /dist
 dist/credentials.json
+dist/artsy-api.json
