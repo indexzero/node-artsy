@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+var request = require('request')
+
+//
+// Simple DRY error handling
+//
+function onError(err) {
+  console.log('Error reading dist/credentials.json. Does it exist yet?');
+  console.log(err.message);
+  return process.exit(1);
+}
+
+var credentials;
+try {
+  credentials = JSON.parse(require('../dist/credentials'));
+  if (!credentials || !credentials.id || !credentials.secret) {
+    throw new Error('Missing id or secret')
+  }
+}
+catch (ex) {
+  return onError(ex);
+}
+
+request({
+  url: "https://api.artsy.net/api/v1/xapp_token"
+  qs: {
+    client_id:     credentials.id,
+    client_secret: credentials.secret
+  }
+}, function (err, res, body) {
+  if (err || !body || !body.xapp_token) {
+    return onError(err || new Error('No XAPP token returned'));
+  }
+
+  console.log(body.xapp_token);
+});
