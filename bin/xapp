@@ -13,7 +13,7 @@ function onError(err) {
 
 var credentials;
 try {
-  credentials = JSON.parse(require('../dist/credentials'));
+  credentials = require('../dist/credentials');
   if (!credentials || !credentials.id || !credentials.secret) {
     throw new Error('Missing id or secret')
   }
@@ -23,7 +23,8 @@ catch (ex) {
 }
 
 request({
-  url: "https://api.artsy.net/api/v1/xapp_token"
+  url: "https://api.artsy.net/api/v1/xapp_token",
+  json: true,
   qs: {
     client_id:     credentials.id,
     client_secret: credentials.secret

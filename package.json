@@ -2,7 +2,7 @@
   "name": "artsy",
   "version": "0.0.0",
   "description": "A Node.js client for the Artsy API",
-  "main": "lib/artsy.js",
+  "main": "lib/index.js",
   "directories": {
     "test": "test"
   },
