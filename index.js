@@ -21,5 +21,23 @@ Mana.extend({
     if (!this.authorization)
       throw new Error('Token required to make api requests, please generate one');
 
+  },
+  options: function (opts, params) {
+    opts = opts || {}
+    opts.params = opts.params || params || [];
+
+    var defaults = { page: 1, size: 100 };
+    Object.keys(defaults).forEach(function (key) {
+      if (Array.isArray(opts.params)) {
+        if (!~opts.params.indexOf(key)) opts.params.push(key);
+        if (!opts[key]) opts[key] = defaults[key];
+      }
+      else {
+        if (!(key in opts.params)) opts.params[key] = defaults[key];
+      }
+    });
+
+    return opts;
+
   }
 }).drink(module);
