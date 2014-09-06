@@ -7,7 +7,7 @@
  */
 function Artwork (api) {
   this.send = api.send.bind(api);
-  this.qs = api.querystring;
+  this.options = api.options;
   this.api = api;
 }
 
@@ -32,6 +32,76 @@ Artwork.prototype.get = function (args) {
 };
 
 /**
+ * Update a piece of artwork by ID
+ *
+ * @param {String} str artwork id
+ * @param {Object} options Optional options.
+ * @param {function} fn The callback.
+ * @returns {Assign}
+ * @api public
+ */
+Artwork.prototype.put =
+Artwork.prototype.update = function (args) {
+  args = this.api.args(arguments);
+
+  var options = args.options || {};
+
+  return this.send(
+    ['artwork', args.str],
+    this.api.merge(options, {
+      method: 'PUT'
+    }),
+    args.fn
+  );
+};
+
+/**
+ * Create an artwork
+ *
+ * @param {Object} options Optional options.
+ * @param {function} fn The callback.
+ * @returns {Assign}
+ * @api public
+ */
+Artwork.prototype.create = function (args) {
+  args = this.api.args(arguments);
+
+  var options = args.options || {};
+
+  return this.send(
+    ['artwork.json'],
+    this.api.merge(options, {
+      method: 'POST'
+    }),
+    args.fn
+  );
+};
+
+/**
+ * Delete a piece of artwork by ID
+ *
+ * @param {String} str artwork id
+ * @param {Object} options Optional options.
+ * @param {function} fn The callback.
+ * @returns {Assign}
+ * @api public
+ */
+Artwork.prototype.del =
+Artwork.prototype.delete = function (args) {
+  args = this.api.args(arguments);
+
+  var options = args.options || {};
+
+  return this.send(
+    ['argwork', args.str],
+    this.api.merge(options, {
+      method: 'DELETE'
+    }),
+    args.fn
+  );
+};
+
+/**
  * Return inquiry request for a particular artwork
  *
  * @param {String} str artwork id
@@ -43,7 +113,10 @@ Artwork.prototype.get = function (args) {
 Artwork.prototype.inquiryRequests = function (args) {
   args = this.api.args(arguments);
 
-  var options = args.options || {};
+  var options = this.options(args.options, [
+    'offset', 'cursor', 'sort'
+  ]);
+
   return this.send(
     ['artwork', args.str, 'artwork_inquiry_requests.json'],
     options,
@@ -83,7 +156,10 @@ Artwork.prototype.comparableSales = function (args) {
 Artwork.prototype.editionSets = function (args) {
   args = this.api.args(arguments);
 
-  var options = args.options || {};
+  var options = this.options(args.options, [
+    'offset', 'cursor'
+  ]);
+
   return this.send(
     ['artwork', args.str, 'edition_sets.json'],
     options,
@@ -100,10 +176,13 @@ Artwork.prototype.editionSets = function (args) {
  * @returns {Assign}
  * @api public
  */
-Artwork.prototype.inquiryRequests = function (args) {
+Artwork.prototype.flags = function (args) {
   args = this.api.args(arguments);
 
-  var options = args.options || {};
+  var options = this.options(args.options, [
+    'offset', 'cursor'
+  ]);
+
   return this.send(
     ['artwork', args.str, 'flags.json'],
     options,
@@ -163,7 +242,10 @@ Artwork.prototype.genomeMap = function (args) {
 Artwork.prototype.genes = function (args) {
   args = this.api.args(arguments);
 
-  var options = args.options || {};
+  var options = this.options(args.options, [
+    'offset', 'cursor'
+  ]);
+
   return this.send(
     ['artwork', args.str, 'genome', 'genes.json'],
     options,
@@ -183,7 +265,10 @@ Artwork.prototype.genes = function (args) {
 Artwork.prototype.images = function (args) {
   args = this.api.args(arguments);
 
-  var options = args.options || {};
+  var options = this.options(args.options, [
+    'offset', 'cursor', 'sort'
+  ]);
+
   return this.send(
     ['artwork', args.str, 'images.json'],
     options,
@@ -203,7 +288,10 @@ Artwork.prototype.images = function (args) {
 Artwork.prototype.installShots = function (args) {
   args = this.api.args(arguments);
 
-  var options = args.options || {};
+  var options = this.options(args.options, [
+    'offset', 'cursor', 'sort'
+  ]);
+
   return this.send(
     ['artwork', args.str, 'install_shots.json'],
     options,
@@ -226,6 +314,48 @@ Artwork.prototype.inventory = function (args) {
   var options = args.options || {};
   return this.send(
     ['artwork', args.str, 'inventory.json'],
+    options,
+    args.fn
+  );
+};
+
+/**
+ * Return the artwork that is canonical for another artwork
+ *
+ * @param {String} str artwork id
+ * @param {Object} options Optional options.
+ * @param {function} fn The callback.
+ * @returns {Assign}
+ * @api public
+ */
+Artwork.prototype.canonicalArtwork = function (args) {
+  args = this.api.args(arguments);
+
+  var options = args.options || {};
+
+  return this.send(
+    ['artwork', args.str, 'canonical_artwork.json'],
+    options,
+    args.fn
+  );
+};
+
+/**
+ * Return the artworks that are duplicate to an artwork
+ *
+ * @param {String} str artwork id
+ * @param {Object} options Optional options.
+ * @param {function} fn The callback.
+ * @returns {Assign}
+ * @api public
+ */
+Artwork.prototype.duplicateArtwork = function (args) {
+  args = this.api.args(arguments);
+
+  var options = args.options || {};
+
+  return this.send(
+    ['artwork', args.str, 'duplicate_artworks.json'],
     options,
     args.fn
   );
