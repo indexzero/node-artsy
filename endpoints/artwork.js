@@ -360,3 +360,5 @@ Artwork.prototype.duplicateArtwork = function (args) {
     args.fn
   );
 };
+
+module.exports = Artwork;
