@@ -97,7 +97,9 @@ Artist.prototype.del = function (args) {
 
   return this.send(
     ['artist', args.str],
-    options,
+    this.api.merge(options, {
+      method: 'DELETE'
+    }),
     args.fn
   )
 };
