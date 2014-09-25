@@ -18,9 +18,9 @@ Mana.extend({
     this.authHeader = 'X-XAPP-Token';
     this.authorization = options.token;
 
-    if (!this.authorization)
+    if (!this.authorization) {
       throw new Error('Token required to make api requests, please generate one');
-
+    }
   },
   options: function (opts, params) {
     opts = opts || {}
@@ -38,6 +38,5 @@ Mana.extend({
     });
 
     return opts;
-
   }
 }).drink(module);
