@@ -28,7 +28,15 @@ Artist.prototype.get = function (args) {
   return this.send(
     ['artist', args.str],
     options,
-    args.fn
+    function (err, ret) {
+      //
+      // Remark (indexzero): unsure if this is mana or the
+      // Artsy API.
+      //
+      return !err
+        ? args.fn(null, ret[0])
+        : args.fn(err);
+    }
   );
 };
 
