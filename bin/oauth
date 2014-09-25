@@ -3,7 +3,7 @@
 var path = require('path'),
     request = require('request');
 
-var file = process.argv[2] || '../dist/credentials';
+var file = process.argv[2] || path.join(__dirname, '..', 'dist', 'credentials');
 
 //
 // Simple DRY error handling
