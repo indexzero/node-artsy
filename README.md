@@ -11,7 +11,6 @@ $ npm install artsy --save
 
 ## Usage
 
-
 ```js
 var Artsy = require('artsy');
 
@@ -24,6 +23,25 @@ var client = new Artsy({ token: '89438sdfgsdfga*&^*=' });
 client.artists.get('jackson-pollock', function (err, artist) {
   console.dir(artist); // Abstract expressionism ftw
 });
+```
+
+## Generating an XAPP token
+
+The authentication API for the `Artsy` client is not very robust yet. You need to get your own XAPP token first.
+
+**Write `dist/credentials.json`**
+```js
+{
+  "id": "your-artsy-id",
+  "secret": "your-artsy-secret"
+}
+```
+
+Then run `artsy-xapp`
+
+```
+npm install -g artsy
+artsy-xapp ./path/to/auth.json
 ```
 
 ### Resources currently implemented
