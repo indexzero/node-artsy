@@ -80,4 +80,4 @@ GET  /api/v1/partners/{partner_id}/artworks.json?&without_artist=true/false
 ```
 
 ##### Authors: [Charlie Robbins](https://github.com/indexzero), [Jarrett Cruger](https://github.com/jcrugzz)
-##### License: MIT
+##### License: Apache2
