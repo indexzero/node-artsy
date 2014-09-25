@@ -6,6 +6,10 @@
   "directories": {
     "test": "test"
   },
+  "bin": {
+    "artsy-xapp": "bin/xapp",
+    "artsy-oauth": "bin/oauth",
+  },
   "scripts": {
     "test": "vows --spec"
   },
