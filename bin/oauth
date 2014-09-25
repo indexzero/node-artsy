@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
-var request = require('request')
+var path = require('path'),
+    request = require('request');
+
+var file = process.argv[2] || '../dist/credentials';
 
 //
 // Simple DRY error handling
@@ -13,14 +16,14 @@ function onError(err, msg) {
 
 var creds;
 try {
-  creds = require('../dist/credentials');
+  creds = require(path.resolve(process.cwd(), file));
   if (!creds || !creds.id || !creds.secret
     || !creds.email || !creds.password) {
     throw new Error('Missing id, secret, email, or password')
   }
 }
 catch (ex) {
-  return onError(ex, 'Error reading dist/credentials.json. Does it exist yet?');
+  return onError(ex, 'Error reading %s. Does it exist yet?', file);
 }
 
 request({

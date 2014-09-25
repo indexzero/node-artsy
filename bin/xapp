@@ -1,20 +1,23 @@
 #!/usr/bin/env node
 
-var request = require('request')
+var path = require('path'),
+    request = require('request');
+
+var file = process.argv[2] || '../dist/credentials';
 
 //
 // Simple DRY error handling
 //
 function onError(err) {
-  console.log('Error reading dist/credentials.json. Does it exist yet?');
+  console.log('Error reading %s. Does it exist yet?', file);
   console.log(err.message);
   return process.exit(1);
 }
 
 var credentials;
 try {
-  credentials = require('../dist/credentials');
-  if (!credentials || !credentials.id || !credentials.secret) {
+  creds = require(path.resolve(process.cwd(), file));
+  if (!creds || !creds.id || !creds.secret) {
     throw new Error('Missing id or secret')
   }
 }
@@ -26,8 +29,8 @@ request({
   url: "https://api.artsy.net/api/v1/xapp_token",
   json: true,
   qs: {
-    client_id:     credentials.id,
-    client_secret: credentials.secret
+    client_id:     creds.id,
+    client_secret: creds.secret
   }
 }, function (err, res, body) {
   if (err || !body || !body.xapp_token) {
