@@ -1,7 +1,7 @@
 node-artsy
 ==========
 
-A Node.js client for the Artsy API
+A Node.js client for the Artsy private API, also known as APIv1. Artsy now has a public API, also known as APIv2, see [developers.artsy.net](https://developers.artsy.net) for more information.
 
 ## Install
 
