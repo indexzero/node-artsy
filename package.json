@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "diagnostics": "0.0.x",
-    "mana": "0.1.x"
+    "mana": "~0.1.31"
   }
 }
