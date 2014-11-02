@@ -45,6 +45,39 @@ Partner.prototype.shows = function (args) {
 };
 
 /**
+ * All available options for querying partner artists.
+ *
+ * @type {Array}
+ * @private
+ */
+Partner.artists = [
+  'artist_id',
+  'published',
+  'sort'
+];
+
+/**
+ * Get all artists for the partner user.
+ *
+ * @param {Object} options Optional options.
+ * @param {function} fn The callback.
+ * @returns {Assign}
+ * @api public
+ */
+Partner.prototype.artists = function (args) {
+  args = this.api.args(arguments);
+
+  var options = args.options || {},
+      partner = args.str || options.partner;
+
+  return this.send(
+    ['partner', partner, 'artists.json'],
+    this.api.options(options, Partner.artists),
+    args.fn
+  );
+};
+
+/**
  * All available options for querying artworks.
  *
  * @type {Array}
