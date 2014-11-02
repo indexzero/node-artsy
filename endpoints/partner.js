@@ -52,6 +52,7 @@ Partner.prototype.shows = function (args) {
  */
 Partner.artworks = [
   'artist_id',
+  'published',
   'sort'
 ];
 
@@ -66,10 +67,11 @@ Partner.artworks = [
 Partner.prototype.artworks = function (args) {
   args = this.api.args(arguments);
 
-  var options = args.options || {};
+  var options = args.options || {},
+      partner = args.str || options.partner;
 
   return this.send(
-    ['partner', options.partner, 'artworks.json'],
+    ['partner', partner, 'artworks.json'],
     this.api.options(options, Partner.artworks),
     args.fn
   );
