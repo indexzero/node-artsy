@@ -1,6 +1,6 @@
 {
   "name": "artsy",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A Node.js client for the Artsy API",
   "main": "lib/index.js",
   "directories": {
