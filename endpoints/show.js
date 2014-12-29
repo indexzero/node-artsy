@@ -24,11 +24,16 @@ function Show (api) {
 Show.prototype.get = function (args) {
   args = this.api.args(arguments);
 
-  var options = args.options || {},
-      callback = args.fn;
+  var options  = args.options || {},
+      callback = args.fn,
+      route    = ['show', args.str];
+
+  if (!args.str && options.partner && options.show) {
+    route = ['partner', options.partner, 'show', options.show];
+  }
 
   return this.send(
-    ['show', args.str],
+    route,
     options,
     function (err, list) {
       return !err
@@ -52,7 +57,7 @@ Show.prototype.artworks = function (args) {
 
   var options = args.options || {};
   return this.send(
-    ['show', args.str, 'artworks'],
+    ['partner', options.partner, 'show', options.show],
     options,
     args.fn
   );
