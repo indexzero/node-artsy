@@ -57,7 +57,7 @@ Show.prototype.artworks = function (args) {
 
   var options = args.options || {};
   return this.send(
-    ['partner', options.partner, 'show', options.show],
+    ['partner', options.partner, 'show', options.show, 'artworks'],
     options,
     args.fn
   );
@@ -78,6 +78,26 @@ Show.prototype.images = function (args) {
   var options = args.options || {};
   return this.send(
     ['partner_show', args.str, 'images'],
+    options,
+    args.fn
+  );
+};
+
+/**
+ * Get Installation images for a partner show by ID
+ *
+ * @param {String} str show id
+ * @param {Object} options Optional options.
+ * @param {function} fn The callback.
+ * @returns {Assign}
+ * @api public
+ */
+Show.prototype.documents = function (args) {
+  args = this.api.args(arguments);
+
+  var options = args.options || {};
+  return this.send(
+    ['partner', options.partner, 'show', options.show, 'documents'],
     options,
     args.fn
   );

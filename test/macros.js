@@ -9,7 +9,7 @@ var config;
 //
 try {
   config = require('../dist/artsy-api');
-  if (!config.xapp) {
+  if (!config.xapp && !config.token) {
     throw new Error('Please write an XAPP key to ./dist/artsy-api.json');
   }
 }
@@ -21,7 +21,7 @@ catch (ex) {
 //
 // Create an Artsy client
 //
-exports.client = new Artsy({ token: config.xapp });
+exports.client = new Artsy(config);
 
 //
 // ### function call (arg, context)
