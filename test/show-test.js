@@ -2,7 +2,7 @@ var vows = require('vows'),
     assert = require('./assert'),
     Artsy = require('../'),
     macros = require('./macros'),
-    debug = require('diagnostics')('artsy:show-test');
+    debug = require('diagnostics')('artsy:test:show');
 
 vows.describe('artsy/show').addBatch({
   'Using node-artsy': {

@@ -1,7 +1,8 @@
 var vows = require('vows'),
     assert = require('./assert'),
     Artsy = require('../'),
-    macros = require('./macros');
+    macros = require('./macros'),
+    debug = require('diagnostics')('artsy:test:artwork');
 
 vows.describe('artsy/artwork').addBatch({
   'Using node-artsy': {
@@ -12,6 +13,7 @@ vows.describe('artsy/artwork').addBatch({
         //
         // TODO (indexzero): More asserts.
         //
+        debug('artwork.get', artwork);
       }
     })
   }

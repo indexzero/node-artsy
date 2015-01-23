@@ -1,7 +1,8 @@
 var vows = require('vows'),
     assert = require('./assert'),
     Artsy = require('../'),
-    macros = require('./macros');
+    macros = require('./macros'),
+    debug = require('diagnostics')('artsy:test:artwork');
 
 vows.describe('artsy/artist').addBatch({
   'Using node-artsy': {
@@ -12,6 +13,7 @@ vows.describe('artsy/artist').addBatch({
         //
         // TODO (indexzero): More asserts.
         //
+        debug('artist.get', artist);
       }
     }),
     'artist.artwork': macros.call('faith-ringgold', {
@@ -20,10 +22,11 @@ vows.describe('artsy/artist').addBatch({
         //
         // TODO (indexzero): More asserts.
         //
+        debug('artist.artworks', artworks);
       }
     })
     //
-    // TODO (indexzero): Figure out if we should keep these methods
+    // Remark (indexzero): these seem only accessible to Artsy admins
     //
     // 'artist.artworkAll': macros.call('faith-ringgold', {
     //   'should return a list of artworks': function (artworks) {
