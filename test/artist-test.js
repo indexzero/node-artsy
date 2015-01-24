@@ -24,6 +24,18 @@ vows.describe('artsy/artist').addBatch({
         //
         debug('artist.artworks', artworks);
       }
+    }),
+    'artist.documents': macros.call({
+      partner: 'aca-galleries',
+      artist: 'faith-ringgold'
+    }, {
+      'should return documents from the artist': function (documents) {
+        assert.isArray(documents);
+        //
+        // TODO (indexzero): More asserts.
+        //
+        debug('artist.documents', documents);
+      }
     })
     //
     // Remark (indexzero): these seem only accessible to Artsy admins

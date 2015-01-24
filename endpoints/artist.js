@@ -183,6 +183,26 @@ Artist.prototype.auctionLots = function (args) {
 };
 
 /**
+ * Get partner documents for a partner artist by ID
+ *
+ * @param {Object} options { partner: str, artist: str }
+ * @param {Object} options Optional options.
+ * @param {function} fn The callback.
+ * @returns {Assign}
+ * @api public
+ */
+Artist.prototype.documents = function (args) {
+  args = this.api.args(arguments);
+
+  var options = args.options || {};
+  return this.send(
+    ['partner', options.partner, 'artist', options.artist, 'documents'],
+    options,
+    args.fn
+  );
+};
+
+/**
  * Return an artists genome
  *
  * @param {String} str Artists name

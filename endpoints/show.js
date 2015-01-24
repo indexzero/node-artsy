@@ -16,6 +16,7 @@ function Show (api) {
  * Get a partner show by ID
  *
  * @param {String} str show id
+ * @param {Object} options { partner: str, show: str }
  * @param {Object} options Optional options.
  * @param {function} fn The callback.
  * @returns {Assign}
@@ -46,7 +47,7 @@ Show.prototype.get = function (args) {
 /**
  * Get Artworks for a partner show by ID
  *
- * @param {String} str show id
+ * @param {Object} options { partner: str, show: str }
  * @param {Object} options Optional options.
  * @param {function} fn The callback.
  * @returns {Assign}
@@ -84,9 +85,9 @@ Show.prototype.images = function (args) {
 };
 
 /**
- * Get Installation images for a partner show by ID
+ * Get documents for a partner show by ID
  *
- * @param {String} str show id
+ * @param {Object} options { partner: str, show: str }
  * @param {Object} options Optional options.
  * @param {function} fn The callback.
  * @returns {Assign}
