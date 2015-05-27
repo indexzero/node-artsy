@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 var path = require('path'),
-    request = require('request');
+    request = require('request'),
+    Artsy = require('../');
 
 var file = process.argv[2] || path.join(__dirname, '..', 'dist', 'credentials');
 
@@ -25,17 +26,11 @@ catch (ex) {
   return onError(ex);
 }
 
-request({
-  url: "https://api.artsy.net/api/v1/xapp_token",
-  json: true,
-  qs: {
-    client_id:     creds.id,
-    client_secret: creds.secret
-  }
-}, function (err, res, body) {
-  if (err || !body || !body.xapp_token) {
-    return onError(err || new Error('No XAPP token returned'));
+var client = new Artsy({ credentials: creds });
+client.token.xapp(function (err, token) {
+  if (err || !token || !token.access_token) {
+    return onError(err || new Error('No access token returned'), err && 'No access token returned');
   }
 
-  console.log(body.xapp_token);
+  console.log(token.access_token);
 });

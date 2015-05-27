@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 var path = require('path'),
-    request = require('request');
+    request = require('request'),
+    Artsy = require('../');
 
 var file = process.argv[2] || path.join(__dirname, '..', 'dist', 'credentials');
 
@@ -26,20 +27,11 @@ catch (ex) {
   return onError(ex, 'Error reading %s. Does it exist yet?', file);
 }
 
-request({
-  url: 'https://api.artsy.net/oauth2/access_token',
-  json: true,
-  qs: {
-    client_id:     creds.id,
-    client_secret: creds.secret,
-    grant_type:    'credentials',
-    email:         creds.email,
-    password:      creds.password
-  }
-}, function (err, res, body) {
-  if (err || !body || !body.access_token) {
+var client = new Artsy({ credentials: creds });
+client.token.oauth(function (err, token) {
+  if (err || !token || !token.access_token) {
     return onError(err || new Error('No access token returned'), err && 'No access token returned');
   }
 
-  console.log(body.access_token);
+  console.log(token.access_token);
 });
