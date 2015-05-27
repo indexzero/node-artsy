@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
 var path = require('path'),
-    request = require('request');
+    util = require('util'),
+    request = require('request'),
+    Artsy = require('../');
 
 var file = process.argv[2] || path.join(__dirname, '..', 'dist', 'credentials');
 
 //
 // Simple DRY error handling
 //
-function onError(err) {
-  console.log('Error reading %s. Does it exist yet?', file);
+function onError(err, msg) {
+  if (msg) { console.log(msg); }
   console.log(err.message);
   return process.exit(1);
 }
@@ -22,20 +24,14 @@ try {
   }
 }
 catch (ex) {
-  return onError(ex);
+  return onError(ex, util.format('Error reading %s. Does it exist yet?', file));
 }
 
-request({
-  url: "https://api.artsy.net/api/v1/xapp_token",
-  json: true,
-  qs: {
-    client_id:     creds.id,
-    client_secret: creds.secret
-  }
-}, function (err, res, body) {
-  if (err || !body || !body.xapp_token) {
-    return onError(err || new Error('No XAPP token returned'));
+var client = new Artsy({ credentials: creds });
+client.token.xapp(function (err, token) {
+  if (err || !token || !token.xapp_token) {
+    return onError(err || new Error('No XApp token returned'), err && 'No XApp token returned');
   }
 
-  console.log(body.xapp_token);
+  console.log(token.xapp_token);
 });

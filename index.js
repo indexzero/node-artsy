@@ -15,10 +15,11 @@ Mana.extend({
 
     this.api           = options.url    || 'https://api.artsy.net/api/v1/';
     this.authHeader    = options.header || 'X-XAPP-Token';
+    this.credentials   = options.credentials || options.creds;
     this.authorization = options.token;
 
-    if (!this.authorization) {
-      throw new Error('Token required to make api requests, please generate one');
+    if (!this.authorization && !this.credentials) {
+      throw new Error('Token or credentials required to make Artsy requests.');
     }
   },
   options: function (opts, params) {
