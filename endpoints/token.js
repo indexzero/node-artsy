@@ -21,18 +21,8 @@ function Token (api) {
  * @api public
  */
 Token.prototype.oauth = function () {
-  var self = this;
   var args = this.api.args(arguments);
-  var params = this.api.merge(
-    { grant_type: 'credentials' },
-    this.api.credentials || {},
-    args.options || {}
-  );
-
-  ['id', 'secret'].forEach(function (key) {
-    params['client_' + key] = params[key];
-    delete params[key];
-  });
+  var self = this;
 
   //
   // Sets the token to this instance for future API calls.
@@ -45,12 +35,12 @@ Token.prototype.oauth = function () {
 
     self.api.authorization = token.access_token;
     self.api.authHeader = 'X-Access-Token';
-    args.fn.apply(null, token);
+    args.fn(null, token);
   }
 
   return this.send(['oauth2', 'access_token'], {
-    api: 'https://api.artsy.net',
-    params: params
+    params: this.credentials(args, { grant_type: 'credentials' }),
+    api: 'https://api.artsy.net'
   }, setToken);
 };
 
@@ -64,20 +54,46 @@ Token.prototype.oauth = function () {
  */
 Token.prototype.xapp = function () {
   var args = this.api.args(arguments);
+  var self = this;
 
   //
   // Sets the token to this instance for future API calls.
   //
-  function setToken() {
-    console.dir(arguments);
-    args.fn.apply(null, arguments);
+  function setToken(err, tokens) {
+    var token = tokens && tokens.length && tokens[0];
+    if (err || !token || !token.xapp_token) {
+      return args.fn(err || new Error('No XApp token returned.'));
+    }
+
+    self.api.authorization = token.xapp_token;
+    args.fn(null, token);
   }
 
   return this.send(
     ['xapp_token'],
-    this.api.merge({}, this.api.credentials || {}, args.options || {}),
+    { params: this.credentials(args) },
     setToken
   );
+};
+
+/**
+ * Responds with the correct querystring params based on the
+ * pre-parsed `args` and optional `defaults`.
+ *
+ */
+Token.prototype.credentials = function (args, defaults) {
+  var params = this.api.merge(
+    defaults || {},
+    this.api.credentials || {},
+    args.options || {}
+  );
+
+  ['id', 'secret'].forEach(function (key) {
+    params['client_' + key] = params[key];
+    delete params[key];
+  });
+
+  return params;
 };
 
 module.exports = Token;

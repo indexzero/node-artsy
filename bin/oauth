@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var path = require('path'),
+    util = require('util'),
     request = require('request'),
     Artsy = require('../');
 
@@ -24,13 +25,13 @@ try {
   }
 }
 catch (ex) {
-  return onError(ex, 'Error reading %s. Does it exist yet?', file);
+  return onError(ex, util.format('Error reading %s. Does it exist yet?', file));
 }
 
 var client = new Artsy({ credentials: creds });
 client.token.oauth(function (err, token) {
   if (err || !token || !token.access_token) {
-    return onError(err || new Error('No access token returned'), err && 'No access token returned');
+    return onError(err || new Error('No OAuth token returned'), err && 'No OAuth token returned');
   }
 
   console.log(token.access_token);
