@@ -31,7 +31,7 @@
   "homepage": "https://github.com/indexzero/node-artsy",
   "devDependencies": {
     "request": "~2.40.0",
-    "vows": "~0.7.0"
+    "vows": "~0.9.0-rc2"
   },
   "dependencies": {
     "diagnostics": "0.0.x",
